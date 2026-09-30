@@ -64,3 +64,13 @@ def give_back(tools: list[Tool], id: int) -> Tool:
 
 def available(tools: list[Tool]) -> list[Tool]:
     return [t for t in tools if t.lent_to is None]
+
+
+def by_category(tools: list[Tool]) -> dict[str, dict[str, int]]:
+    """Per category, how many there are and how many are available, sorted by name."""
+    summary: dict[str, dict[str, int]] = {}
+    for t in sorted(tools, key=lambda t: t.category):
+        count = summary.setdefault(t.category, {"total": 0, "available": 0})
+        count["total"] += 1
+        count["available"] += t.lent_to is None
+    return summary

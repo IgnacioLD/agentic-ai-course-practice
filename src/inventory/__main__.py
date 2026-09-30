@@ -6,13 +6,14 @@ Commands:
   lend <id> <member>         lend a tool
   return <id>                return a tool
   add <name> <category>
+  export                     the inventory as CSV (uv run inventory export > inventory.csv)
 """
 
 import argparse
 import sys
 from pathlib import Path
 
-from . import core
+from . import core, export
 
 # src/inventory/__main__.py -> repo root
 PATH = Path(__file__).resolve().parents[2] / "data" / "inventory.json"
@@ -38,6 +39,7 @@ def main(argv=None):
     p = sub.add_parser("add")
     p.add_argument("name")
     p.add_argument("category")
+    sub.add_parser("export")
     args = parser.parse_args(argv)
 
     tools = core.load(PATH)
@@ -58,6 +60,8 @@ def main(argv=None):
             t = core.add(tools, args.name, args.category)
             core.save(PATH, tools)
             print(f"added with id {t.id}")
+        elif args.command == "export":
+            sys.stdout.write(export.to_csv(tools))
     except (KeyError, ValueError) as err:
         print(f"error: {err.args[0]}", file=sys.stderr)
         return 1

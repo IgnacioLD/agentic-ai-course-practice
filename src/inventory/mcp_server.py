@@ -41,5 +41,11 @@ def available() -> list[dict]:
     return [asdict(t) for t in core.available(core.load(PATH))]
 
 
+@server.tool(annotations=READ_ONLY)
+def categories() -> dict[str, dict[str, int]]:
+    """Summary per category: how many tools there are and how many are available."""
+    return core.by_category(core.load(PATH))
+
+
 def main() -> None:
     server.run()

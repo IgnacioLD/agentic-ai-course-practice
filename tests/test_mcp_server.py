@@ -22,7 +22,7 @@ async def call(name: str, arguments: dict | None = None) -> list[dict]:
 async def test_read_only_tools():
     async with Client(server) as client:
         tools = (await client.list_tools()).tools
-    assert {t.name for t in tools} == {"list_all", "search", "available"}
+    assert {t.name for t in tools} == {"list_all", "search", "available", "categories"}
     assert all(t.annotations.read_only_hint for t in tools)
 
 
