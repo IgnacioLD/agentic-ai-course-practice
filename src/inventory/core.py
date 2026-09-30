@@ -30,9 +30,15 @@ def add(tools: list[Tool], name: str, category: str) -> Tool:
     return tool
 
 
+def _normalise(text: str) -> str:
+    """Lowercase and hyphens as spaces, to compare the way a person would."""
+    return text.replace("-", " ").casefold()
+
+
 def search(tools: list[Tool], text: str) -> list[Tool]:
-    """Tools whose name contains `text`."""
-    return [t for t in tools if text in t.name]
+    """Tools whose name contains `text`, ignoring case and hyphens."""
+    wanted = _normalise(text)
+    return [t for t in tools if wanted in _normalise(t.name)]
 
 
 def get(tools: list[Tool], id: int) -> Tool:
