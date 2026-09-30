@@ -1,0 +1,10 @@
+[
+  { "id": 1, "name": "Soldering station Hakko FX-888D", "category": "electronics", "lent_to": null },
+  { "id": 2, "name": "Oscilloscope Rigol DS1054Z", "category": "electronics", "lent_to": null },
+  { "id": 3, "name": "3D printer Prusa MK4", "category": "fabrication", "lent_to": "marta" },
+  { "id": 4, "name": "Hammer drill", "category": "woodworking", "lent_to": null },
+  { "id": 5, "name": "Multimeter Fluke 117", "category": "electronics", "lent_to": null },
+  { "id": 6, "name": "Laser cutter", "category": "fabrication", "lent_to": null },
+  { "id": 7, "name": "Hot-air rework station", "category": "electronics", "lent_to": null },
+  { "id": 8, "name": "Jigsaw", "category": "woodworking", "lent_to": "jorge" }
+]

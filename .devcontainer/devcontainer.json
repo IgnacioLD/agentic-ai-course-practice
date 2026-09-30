@@ -1,0 +1,13 @@
+// Course sandbox: the agent works inside a container that only sees this
+// repo. Not your ~/.ssh, not your credentials, not the rest of your disk.
+// Open it with VS Code ("Reopen in Container") or the devcontainers CLI:
+//   devcontainer up --workspace-folder . && devcontainer exec --workspace-folder . opencode
+{
+  "name": "inventory (sandbox)",
+  "image": "mcr.microsoft.com/devcontainers/python:3.13",
+  // The host's .venv doesn't work inside the container (different system).
+  "containerEnv": { "UV_PROJECT_ENVIRONMENT": "/home/vscode/.venv" },
+  // Only the course key gets in, and only if you have it exported.
+  "remoteEnv": { "OPENROUTER_API_KEY": "${localEnv:OPENROUTER_API_KEY}" },
+  "postCreateCommand": "pipx install uv && curl -fsSL https://opencode.ai/install | bash && uv sync"
+}
