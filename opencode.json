@@ -3,7 +3,32 @@
   "mcp": {
     "inventory": {
       "type": "local",
-      "command": ["uv", "run", "inventory-mcp"]
+      "command": [
+        "uv",
+        "run",
+        "inventory-mcp"
+      ]
+    }
+  },
+  "permission": {
+    "edit": "ask",
+    "webfetch": "deny",
+    "websearch": "deny",
+    "external_directory": "deny",
+    "read": {
+      "*": "allow",
+      ".env": "deny",
+      "**/.env": "deny"
+    },
+    "bash": {
+      "*": "ask",
+      "git status": "allow",
+      "git diff*": "allow",
+      "uv run pytest*": "allow",
+      "uv run inventory*": "allow",
+      "ls*": "allow",
+      "curl *": "deny",
+      "rm *": "deny"
     }
   }
 }

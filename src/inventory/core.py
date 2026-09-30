@@ -37,7 +37,7 @@ def _normalise(text: str) -> str:
 
 def search(tools: list[Tool], text: str) -> list[Tool]:
     """Tools whose name contains `text`, ignoring case and hyphens."""
-    wanted = _normalise(text)
+    wanted = _normalise(text.strip())  # issue 42: extra spaces when copying and pasting
     return [t for t in tools if wanted in _normalise(t.name)]
 
 
