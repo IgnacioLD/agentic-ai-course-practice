@@ -28,11 +28,17 @@ def list_all() -> list[dict]:
     return [asdict(t) for t in core.load(PATH)]
 
 
-# EXERCISE: add two more tools, read-only like `list_all`:
-#   - search(text): the tools whose name contains `text`.
-#   - available(): the ones that aren't lent out.
-# The docstring is what the model reads to decide when to use each one:
-# write it with the model in mind.
+@server.tool(annotations=READ_ONLY)
+def search(text: str) -> list[dict]:
+    """Tools whose name contains `text`, ignoring case and hyphens. Use it
+    before `list_all` when you're looking for something specific."""
+    return [asdict(t) for t in core.search(core.load(PATH), text)]
+
+
+@server.tool(annotations=READ_ONLY)
+def available() -> list[dict]:
+    """Tools that aren't lent out right now."""
+    return [asdict(t) for t in core.available(core.load(PATH))]
 
 
 def main() -> None:
