@@ -120,19 +120,19 @@ def call_model(client: OpenAI, messages: list, model: str, turn: int):
 def agent(task: str, client: OpenAI, model: str = MODEL) -> str:
     messages = [{"role": "system", "content": SYSTEM}, {"role": "user", "content": task}]
 
-    # EXERCISE: write the agent loop (about 10 lines).
-    # On each turn, at most MAX_TURNS:
-    #   1. Call the model: call_model(client, messages, model, turn).
-    #      Its message is in response.choices[0].message.
-    #   2. Append it to `messages` with message.model_dump(exclude_none=True):
-    #      the conversation grows every turn.
-    #   3. If it doesn't ask for tools (message.tool_calls is empty), it's
-    #      done: return message.content.
-    #   4. If it does, run each call with run_tool(call) and append the result
-    #      to `messages`:
-    #      {"role": "tool", "tool_call_id": call.id, "content": result}
-    # If it runs out of turns, return a warning that it didn't finish.
-    raise NotImplementedError("write the agent loop")
+    for turn in range(1, MAX_TURNS + 1):
+        response = call_model(client, messages, model, turn)
+        message = response.choices[0].message
+        messages.append(message.model_dump(exclude_none=True))  # the conversation grows
+
+        if not message.tool_calls:
+            return message.content or ""
+
+        for call in message.tool_calls:
+            result = run_tool(call)
+            messages.append({"role": "tool", "tool_call_id": call.id, "content": result})
+
+    return f"Reached the limit of {MAX_TURNS} turns without finishing."
 
 
 def main() -> None:
